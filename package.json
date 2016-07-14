@@ -1,0 +1,19 @@
+{
+  "name": "in-hapi",
+  "version": "1.0.0",
+  "description": "Project for self-education. In progress.",
+  "main": "index.js",
+  "dependencies": {
+    "hapi": "^13.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelkyrdan/in-hapi.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
