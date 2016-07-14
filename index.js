@@ -35,12 +35,29 @@ server.register({
   });
 
   server.route({
-    method: 'GET',
-    path: '/{name}',
+    method:'GET',
+    path:'/users/{userId}',
     handler:(request, reply) => {
-      reply(`hello ${request.param.name}`);
+      reply(request.params);
     }
   });
+
+  server.route({
+    method: 'GET',
+    path: '/greeting/{name?}',
+    handler:(request, reply) => {
+      reply(`hello ${request.params.name}`);
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/files/{files*}',
+    handler:(request, reply) => {
+      reply(request.params);
+    }
+  });
+
 
   server.start(() => console.log(`started at: ${server.info.uri}`));
 
