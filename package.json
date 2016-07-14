@@ -4,6 +4,9 @@
   "description": "Project for self-education. In progress.",
   "main": "index.js",
   "dependencies": {
+    "good": "^7.0.1",
+    "good-console": "^6.1.2",
+    "good-squeeze": "^4.0.0",
     "hapi": "^13.5.0"
   },
   "devDependencies": {},

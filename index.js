@@ -8,12 +8,40 @@ server.connection({
   port:8000
 });
 
-server.route({
-  method:'GET',
-  path:'/',
-  handler: (request, reply) => {
-    reply('hello hapi world');
+let goodOptions = {
+  reporters: {
+      console: [{
+        module: 'good-squeeze',
+        name: 'Squeeze',
+        args: [{log: '*',response: '*'}]
+      }, { module: 'good-console'}, 'stdout'
+    ]
   }
-});
+};
 
-server.start(() => console.log(`started at: ${server.info.uri}`))
+server.register({
+  register: require('good'),
+  options: goodOptions
+}, err => {
+
+  server.route({
+    method:'GET',
+    path:'/',
+    handler: (request, reply) => {
+      server.log('error', 'oh shit!');
+      server.log('info', 'replying');
+      reply('hello hapi world');
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/{name}',
+    handler:(request, reply) => {
+      reply(`hello ${request.param.name}`);
+    }
+  });
+
+  server.start(() => console.log(`started at: ${server.info.uri}`));
+
+});
