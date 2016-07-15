@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const server = new Hapi.Server();
+const Boom = require('boom');
 
 server.connection({
   host:'localhost',
@@ -57,6 +58,23 @@ server.register({
       reply(request.params);
     }
   });
+
+  server.route({
+    method: 'GET',
+    path: '/error',
+    handler:(request, reply) => {
+      reply(new Error('oops'));
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/not-found',
+    handler:(request, reply) => {
+      reply(Boom.notFound());
+    }
+  });
+
 
 
   server.start(() => console.log(`started at: ${server.info.uri}`));
