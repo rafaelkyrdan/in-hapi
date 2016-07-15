@@ -3,6 +3,7 @@
 const Hapi = require('hapi');
 const server = new Hapi.Server();
 const Boom = require('boom');
+const Path = require('path');
 
 server.connection({
   host:'localhost',
@@ -20,10 +21,13 @@ let goodOptions = {
   }
 };
 
-server.register({
-  register: require('good'),
-  options: goodOptions
-}, err => {
+server.register([{
+    register: require('good'),
+    options: goodOptions
+}, {
+    register: require('inert'),
+    options: {}
+}], err => {
 
   server.route({
     method:'GET',
@@ -87,8 +91,24 @@ server.register({
     }
   });
 
+  server.route({
+    method:'GET',
+    path:'/hapi.logo',
+    handler: (request, reply) => {
+      var path = Path.join(__dirname,'public/logo.svg');
+      reply.file(path);
+    }
+  });
 
-
+  server.route({
+    method:'GET',
+    path:'/assets/{files*}',
+    handler: {
+      directory: {
+        path: Path.join(__dirname,'public')
+      }
+    }
+  });
 
   server.start(() => console.log(`started at: ${server.info.uri}`));
 
