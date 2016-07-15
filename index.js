@@ -27,7 +27,19 @@ server.register([{
 }, {
     register: require('inert'),
     options: {}
+},{
+    register: require('vision'),
+    options: {}
 }], err => {
+
+  server.views({
+    engines: {
+      hbs: require('handlebars')
+    },
+    relativeTo: __dirname,
+    layout:true,
+    path: 'views'
+  });
 
   server.route({
     method:'GET',
@@ -108,6 +120,14 @@ server.register([{
         path: Path.join(__dirname,'public')
       }
     }
+  });
+
+  server.route({
+      method:'GET',
+      path: '/page/{name?}',
+      handler: (request, reply) => {
+        reply.view('home', {name: request.params.name || 'World'});
+      }
   });
 
   server.start(() => console.log(`started at: ${server.info.uri}`));
