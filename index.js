@@ -75,6 +75,19 @@ server.register({
     }
   });
 
+  server.route({
+    method: 'GET',
+    path: '/response',
+    handler:(request, reply) => {
+      reply('response object')
+        .code(418)
+        .type('text/plain')
+        .header('hello', 'world')
+        .state('CookieId', 'CookieValue');// set up cookies
+    }
+  });
+
+
 
 
   server.start(() => console.log(`started at: ${server.info.uri}`));
