@@ -21,6 +21,37 @@ let goodOptions = {
   }
 };
 
+server.ext('onRequest', (request, reply) => {
+  console.log('onRequest');
+  reply.continue();
+});
+
+server.ext('onPreAuth', (request, reply) => {
+  console.log('onPreAuth');
+  reply.continue();
+});
+
+server.ext('onPostAuth', (request, reply) => {
+  console.log('onPostAuth');
+  reply.continue();
+});
+
+server.ext('onPreHandler', (request, reply) => {
+  console.log('onPreHandler');
+  reply.continue();
+});
+
+server.ext('onPostHandler', (request, reply) => {
+  console.log('onPostHandler');
+  reply.continue();
+});
+
+server.ext('onPreResponse', (request, reply) => {
+  console.log('onPreResponse');
+  reply.continue();
+});
+
+
 server.register([{
     register: require('good'),
     options: goodOptions
@@ -47,6 +78,7 @@ server.register([{
     handler: (request, reply) => {
       server.log('error', 'oh shit!');
       server.log('info', 'replying');
+      console.log('handler');
       reply('hello hapi world');
     }
   });
