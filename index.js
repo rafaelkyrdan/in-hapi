@@ -22,6 +22,13 @@ let goodOptions = {
   }
 };
 
+server.state('cookieId', {
+  ttl: 60 * 60 * 1000,
+  isHttpOnly:true,
+  encoding: 'iron',
+  password:'1234567890qwertyuiopasdfghjkl;zx'
+});
+
 server.register([{
     register: require('good'),
     options: goodOptions
@@ -175,9 +182,20 @@ server.register([{
         .code(418)
         .type('text/plain')
         .header('hello', 'world')
-        .state('CookieId', 'CookieValue');// set up cookies
+        .state('cookieId', 'cookieValue');// set up cookies
     }
   });
+
+  server.route({
+    method: 'GET',
+    path: '/cookies',
+    handler:(request, reply) => {
+      let cookieId = request.state.cookieId.value;
+      reply(`Cookies! ${cookieId}`)
+        .state('cookieId', {value:'myValue'});
+    }
+  });
+
 
   server.route({
     method:'GET',
