@@ -4,6 +4,7 @@ const Hapi = require('hapi');
 const server = new Hapi.Server();
 const Boom = require('boom');
 const Path = require('path');
+const Joi = require('joi');
 
 server.connection({
   host:'localhost',
@@ -106,6 +107,32 @@ server.register([{
     handler:(request, reply) => {
       reply(request.params);
     }
+  });
+
+  server.route({
+    method:['POST', 'PUT'],
+    path:'/users/{id?}',
+    config:{
+      validate: {
+        params: Joi.object({
+          id: Joi.number()
+        }),
+        query: Joi.object({
+          sid:Joi.number(),
+        }),
+        payload: Joi.object({
+          id:Joi.number(),
+          name:Joi.string()
+        })
+      },
+      handler:(request, reply) => {
+        reply({
+          params:request.params,
+          query:request.query,
+          payload:request.payload
+        });
+      }
+    },
   });
 
   server.route({
