@@ -21,37 +21,6 @@ let goodOptions = {
   }
 };
 
-server.ext('onRequest', (request, reply) => {
-  console.log('onRequest');
-  reply.continue();
-});
-
-server.ext('onPreAuth', (request, reply) => {
-  console.log('onPreAuth');
-  reply.continue();
-});
-
-server.ext('onPostAuth', (request, reply) => {
-  console.log('onPostAuth');
-  reply.continue();
-});
-
-server.ext('onPreHandler', (request, reply) => {
-  console.log('onPreHandler');
-  reply.continue();
-});
-
-server.ext('onPostHandler', (request, reply) => {
-  console.log('onPostHandler');
-  reply.continue();
-});
-
-server.ext('onPreResponse', (request, reply) => {
-  console.log('onPreResponse');
-  reply.continue();
-});
-
-
 server.register([{
     register: require('good'),
     options: goodOptions
@@ -62,6 +31,39 @@ server.register([{
     register: require('vision'),
     options: {}
 }], err => {
+
+  server.ext('onRequest', (request, reply) => {
+    console.log('onRequest');
+    reply.continue();
+  });
+
+  server.ext('onPreAuth', (request, reply) => {
+    console.log('onPreAuth');
+    reply.continue();
+  });
+
+  server.ext('onPostAuth', (request, reply) => {
+    console.log('onPostAuth');
+    reply.continue();
+  });
+
+  server.ext('onPreHandler', (request, reply) => {
+    console.log('onPreHandler');
+    reply.continue();
+  });
+
+  server.ext('onPostHandler', (request, reply) => {
+    console.log('onPostHandler');
+    reply.continue();
+  });
+
+  server.ext('onPreResponse', (request, reply) => {
+    console.log('onPreResponse');
+    let resp = request.response;
+    if (!resp.isBoom) return reply.continue();
+    reply.view('errors', resp.output.payload)
+      .code(resp.output.statusCode);
+  });
 
   server.views({
     engines: {
