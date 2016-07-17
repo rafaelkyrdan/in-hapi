@@ -52,6 +52,21 @@ server.register([{
   });
 
   server.route({
+    method:['POST', 'PUT'],
+    path:'/post',
+    config: {
+      payload: {
+        output: 'data',
+        parse: false,
+        allow: 'application/json'
+      }
+    },
+    handler: (request, reply) => {
+      reply(request.payload);
+    }
+  });
+
+  server.route({
     method:'GET',
     path:'/users/{userId}',
     handler:(request, reply) => {
